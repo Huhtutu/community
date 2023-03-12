@@ -3,7 +3,7 @@ package com.nowcoder.community.util;
 import lombok.Data;
 
 /**
- *
+ *  分页工具类
  */
 @Data
 public class PageInfo {
