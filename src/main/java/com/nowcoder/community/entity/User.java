@@ -15,6 +15,6 @@ public class User {
     private Integer type;
     private Integer status;
     private String activationCode;
-    private String headUrl;
+    private String headerUrl;
     private Date createTime;
 }

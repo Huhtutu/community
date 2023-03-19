@@ -24,10 +24,9 @@ spring:
     username: htt424307574@sina.com
     password: 2091555e8c4df032
     protocol: smtps
-      mail:
-        smtp:
-          ssl:
-            enable: true
+    smtp:
+      ssl:
+        enable: true
 
 
 #mybatis相关配置

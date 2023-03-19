@@ -1,11 +1,14 @@
 package com.nowcoder.community.controller;
 
+import com.nowcoder.community.util.CommunityUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
@@ -113,5 +116,43 @@ public class TestController {
         emp.put("no","s003");
         emps.add(emp);
         return  emps;
+    }
+
+    @RequestMapping(path = "/cookie/set",method = RequestMethod.GET)
+    @ResponseBody
+    public String setCookie(HttpServletResponse response){
+        //创建Cookie
+        Cookie cookie = new Cookie("code", CommunityUtil.genertUUID());
+        //生效的路径
+        cookie.setPath("/community");
+        //有效时间
+        cookie.setMaxAge(60*10);
+        //发送Cookie
+        response.addCookie(cookie);
+        return "set cookie";
+    }
+
+    @RequestMapping(path = "/cookie/get",method = RequestMethod.GET)
+    @ResponseBody
+    public String getCookie(@CookieValue("code") String code){
+        System.out.println(code);
+        return "get cookie";
+    }
+
+    //session
+    @RequestMapping(path = "/session/set",method = RequestMethod.GET)
+    @ResponseBody
+    public String setSession(HttpSession session){
+        session.setAttribute("name","Hututu");
+        session.setAttribute("age","20");
+        return "set session";
+    }
+
+    @RequestMapping(path = "/session/get",method = RequestMethod.GET)
+    @ResponseBody
+    public String getSession(HttpSession session){
+        System.out.println("Name:"+session.getAttribute("name"));
+        System.out.println("Age:"+session.getAttribute("age"));
+        return "get session";
     }
 }

@@ -3,6 +3,7 @@ package com.nowcoder.community.service.impl;
 import com.nowcoder.community.entity.User;
 import com.nowcoder.community.mapper.UserMapper;
 import com.nowcoder.community.service.UserService;
+import com.nowcoder.community.util.CommunityConstant;
 import com.nowcoder.community.util.CommunityUtil;
 import com.nowcoder.community.util.MailClient;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +19,7 @@ import java.util.Map;
 import java.util.Random;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, CommunityConstant {
 
     @Resource
     private UserMapper userMapper;
@@ -78,7 +79,7 @@ public class UserServiceImpl implements UserService {
         user.setType(0);
         user.setStatus(0);
         user.setActivationCode(CommunityUtil.genertUUID());
-        user.setHeadUrl(String.format("http://images.nowcoder.com/head/%dt.png",new Random().nextInt(1000)));
+        user.setHeaderUrl(String.format("http://images.nowcoder.com/head/%dt.png",new Random().nextInt(1000)));
         user.setCreateTime(new Date());
         userMapper.insertUser(user);
 
@@ -91,6 +92,18 @@ public class UserServiceImpl implements UserService {
         String content = templateEngine.process("mail/activation",context);
         mailClient.send(user.getEmail(),"激活账户",content);
         return map;
+    }
+
+    public Integer activation(Integer userId, String code){
+        User user = userMapper.selectById(userId);
+        if (user.getStatus() == 1){
+            return  ACTIVATION_REPEAT;
+        }else if(user.getActivationCode().equals(code)){
+            userMapper.updateStatus(userId,1);
+            return ACTIVATION_SUCCESS;
+        }else {
+            return ACTIVATION_FAILURE;
+        }
     }
 
 }
