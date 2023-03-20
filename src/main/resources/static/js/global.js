@@ -1,4 +1,4 @@
-var CONTEXT_PATH = "/community/user";
+var CONTEXT_PATH = "/community";
 var PROJECT_ROOT = "/community";
 window.alert = function(message) {
 	if(!$(".alert-box").length) {
