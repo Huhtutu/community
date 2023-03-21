@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService, CommunityConstant {
 
     @Value("${server.servlet.context-path}")
     private String contextPath;
+
     @Override
     public User findUserById(Integer id) {
         return userMapper.selectById(id);
@@ -157,5 +158,9 @@ public class UserServiceImpl implements UserService, CommunityConstant {
 
     public void logout(String ticket){
         loginTicketMapper.updateStatus(ticket,1);
+    }
+
+    public LoginTicket findLoginTicket(String ticket){
+        return loginTicketMapper.selecetByTicket(ticket);
     }
 }
