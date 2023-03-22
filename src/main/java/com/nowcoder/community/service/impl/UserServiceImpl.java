@@ -163,4 +163,8 @@ public class UserServiceImpl implements UserService, CommunityConstant {
     public LoginTicket findLoginTicket(String ticket){
         return loginTicketMapper.selecetByTicket(ticket);
     }
+
+    public Integer updateHeader(Integer userId,String headerUrl){
+       return userMapper.updateHeader(userId,headerUrl);
+    }
 }
