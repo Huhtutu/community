@@ -42,7 +42,7 @@ public class UserController {
     @Resource
     private HostHolder hostHolder;
 
-    @RequestMapping(path = "setting",method = RequestMethod.GET)
+    @RequestMapping(path = "/setting",method = RequestMethod.GET)
     public String getSettingPage(){
         return "/site/setting";
     }
@@ -73,7 +73,7 @@ public class UserController {
         }
 
         //更新当前用户头像的路径
-        User user = (User) hostHolder.getUser();
+        User user =  hostHolder.getUser();
         String headerUrl = doMain + contextPath + "/user/header" +filename;
         userService.updateHeader(user.getId(),headerUrl);
         return "redirect:/index";
@@ -84,9 +84,9 @@ public class UserController {
         //服务器存放路径
         filename = uploadPath + "/" + filename;
         //文件后缀
-        String suffix = filename.substring(filename.lastIndexOf("."));
+        String suffix = filename.substring(filename.lastIndexOf(".")+1);
         //响应图片
-        response.setContentType("image" + suffix);
+        response.setContentType("image/" + suffix);
         try (
                 OutputStream os = response.getOutputStream();
                 FileInputStream inputStream = new FileInputStream(filename);
@@ -99,5 +99,12 @@ public class UserController {
         } catch (IOException e) {
             logger.error("读取头像失败" + e.getMessage());
         }
+    }
+
+    @RequestMapping(path = "/updatePassword",method = RequestMethod.POST)
+    public String rePwd(String originPassword,String newPassword,
+                        String repeatPassword,Model model){
+        model.addAttribute("errorMsg1","两次输入的密码不一致!");
+        return "site/setting";
     }
 }

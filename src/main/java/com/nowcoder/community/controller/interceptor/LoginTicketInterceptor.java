@@ -23,6 +23,7 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
 
     @Resource
     private HostHolder hostHolder;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //从Cookie中获取登录凭证
@@ -32,7 +33,7 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
             //查询凭证
             LoginTicket loginTicket = userService.findLoginTicket(ticket);
             //判断凭证是否有效
-            if(loginTicket.getTicket() != null && loginTicket.getStatus() !=0
+            if(loginTicket != null && loginTicket.getStatus() ==0
             && loginTicket.getExpired().after(new Date())){
                 User user = userService.findUserById(loginTicket.getUserId());
                 //当前登录用户
@@ -44,7 +45,7 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        User user = (User) hostHolder.getUser();
+        User user =  hostHolder.getUser();
         if (user != null && modelAndView != null){
             modelAndView.addObject("loginUser",user);
         }

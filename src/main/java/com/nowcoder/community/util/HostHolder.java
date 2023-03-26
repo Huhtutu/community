@@ -7,23 +7,23 @@ import org.springframework.stereotype.Component;
  *  持有用户信息,代替Session
  */
 @Component
-public class HostHolder<T> {
+public class HostHolder {
 
-    private ThreadLocal<T> users= new ThreadLocal<>();
+    private ThreadLocal<User> users= new ThreadLocal<>();
 
     /**
      *  设置缓存数据
-     * @param t
+     * @param
      */
-    public void setUser(T t){
-        users.set(t);
+    public void setUser(User user){
+        users.set(user);
     }
 
     /**
      *  获取缓存数据
      * @return
      */
-    public T getUser(){
+    public User getUser(){
         return users.get();
     }
 
