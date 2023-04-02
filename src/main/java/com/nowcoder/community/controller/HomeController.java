@@ -5,6 +5,7 @@ import com.nowcoder.community.entity.User;
 import com.nowcoder.community.service.DiscussPostService;
 import com.nowcoder.community.service.UserService;
 import com.nowcoder.community.util.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Controller
 public class HomeController {
 
@@ -25,6 +27,12 @@ public class HomeController {
     @Resource
     private UserService userService;
 
+    /**
+     *
+     * @param model
+     * @param pageInfo
+     * @return
+     */
     @RequestMapping(path = "/index",method = RequestMethod.GET)
     public String indexPage(Model model , PageInfo pageInfo) {
         pageInfo.setRows(discussPostService.findDiscussPostRows(0));
@@ -41,6 +49,7 @@ public class HomeController {
             }
         }
         model.addAttribute("discussPosts",discussPosts);
+        //log.info("查询帖子信息:{}"+postList);
         return "index";
     }
 }

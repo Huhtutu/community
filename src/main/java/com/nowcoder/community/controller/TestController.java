@@ -155,4 +155,12 @@ public class TestController {
         System.out.println("Age:"+session.getAttribute("age"));
         return "get session";
     }
+
+    //Ajax示例
+    @RequestMapping(path = "ajax",method = RequestMethod.GET)
+    @ResponseBody
+    public String sendAjax(String name,int age){
+
+        return CommunityUtil.getJsonStr(0,"Success!");
+    }
 }
